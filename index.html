@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard OC vs Ingresos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0e1a;
+            --bg2: #111827;
+            --bg3: #1a202c;
+            --border: #2d3748;
+            --text: #f0f4f8;
+            --muted: #6b7280;
+            --blue: #3b82f6;
+            --green: #10b981;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--bg), var(--bg2));
+            color: var(--text);
+            font-family: Inter, sans-serif;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+        
+        h1 span {
+            color: var(--blue);
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--muted);
+            margin-bottom: 1rem;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .dashboard-card {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .dashboard-card:hover {
+            border-color: var(--blue);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+            transform: translateY(-5px);
+        }
+        
+        .dashboard-card h2 {
+            font-size: 1.5rem;
+            color: var(--blue);
+        }
+        
+        .dashboard-card p {
+            color: var(--muted);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        .dashboard-card .btn {
+            background: var(--blue);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: 600;
+            transition: background 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .dashboard-card .btn:hover {
+            background: #2563eb;
+        }
+        
+        .info-box {
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border-left: 4px solid var(--green);
+        }
+        
+        .info-box h3 {
+            color: var(--green);
+            margin-bottom: 0.5rem;
+        }
+        
+        .info-box p {
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>OC <span>vs Ingresos</span></h1>
+            <p class="subtitle">Sistema de Monitoreo de Órdenes de Compra</p>
+        </header>
+
+        <div class="info-box">
+            <h3>🔐 Acceso Protegido</h3>
+            <p>Cada dashboard cuenta con autenticación por contraseña. Ingresa la contraseña que compartió tu administrador para acceder.</p>
+        </div>
+
+        <div class="dashboard-grid" id="dashboards">
+            <!-- Se llenará dinámicamente con JavaScript -->
+        </div>
+
+        <div class="footer">
+            <p>📊 Dashboard de OC vs Ingresos | Última actualización: <span id="fecha"></span></p>
+        </div>
+    </div>
+
+    <script>
+        // Lista de operaciones disponibles
+        const operaciones = [
+            { nombre: 'GB', archivo: 'Comparativo_OC_Ingresos_GB.html', descripcion: 'Datos de la operación Grande Brasil' },
+            { nombre: 'AASI', archivo: 'Comparativo_OC_Ingresos_AASI.html', descripcion: 'Datos de la operación AASI' },
+            { nombre: 'CDLAO', archivo: 'Comparativo_OC_Ingresos_CDLAO.html', descripcion: 'Datos de la operación CDLAO' },
+            { nombre: 'CDL28', archivo: 'Comparativo_OC_Ingresos_CDL28.html', descripcion: 'Datos de la operación CDL28' },
+            { nombre: 'PLANTA', archivo: 'Comparativo_OC_Ingresos_PLANTA.html', descripcion: 'Datos de la operación PLANTA' }
+        ];
+
+        // Llenar la grilla con los dashboards
+        const grid = document.getElementById('dashboards');
+        operaciones.forEach(op => {
+            const card = document.createElement('a');
+            card.href = op.archivo;
+            card.className = 'dashboard-card';
+            card.innerHTML = `
+                <h2>${op.nombre}</h2>
+                <p>${op.descripcion}</p>
+                <button class="btn">Abrir Dashboard →</button>
+            `;
+            grid.appendChild(card);
+        });
+
+        // Mostrar fecha actual
+        const fecha = new Date();
+        const opciones = { day: '2-digit', month: '2-digit', year: 'numeric' };
+        document.getElementById('fecha').textContent = fecha.toLocaleDateString('es-ES', opciones);
+    </script>
+</body>
+</html>
